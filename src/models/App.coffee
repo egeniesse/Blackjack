@@ -6,5 +6,10 @@ class window.App extends Backbone.Model
     @set 'playerHand', deck.dealPlayer()
     @set 'dealerHand', deck.dealDealer()
 
-    @get('playerHand').on 'stand', ->
+    @get('playerHand').on 'stand', =>
       @get('dealerHand').dealer()
+
+    @get('dealerHand').on 'evaluate', =>
+      if @get('playerHand').scores() > @get('dealerHand').scores() then alert 'You win!'
+      else if @get('playerHand').scores() < @get('dealerHand').scores() then alert 'You lose'
+      else alert "It's a tie!"

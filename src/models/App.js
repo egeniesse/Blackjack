@@ -15,9 +15,22 @@
       this.set('deck', deck = new Deck());
       this.set('playerHand', deck.dealPlayer());
       this.set('dealerHand', deck.dealDealer());
-      return this.get('playerHand').on('stand', function() {
-        return this.get('dealerHand').dealer();
-      });
+      this.get('playerHand').on('stand', (function(_this) {
+        return function() {
+          return _this.get('dealerHand').dealer();
+        };
+      })(this));
+      return this.get('dealerHand').on('evaluate', (function(_this) {
+        return function() {
+          if (_this.get('playerHand').scores() > _this.get('dealerHand').scores()) {
+            return alert('You win!');
+          } else if (_this.get('playerHand').scores() < _this.get('dealerHand').scores()) {
+            return alert('You lose');
+          } else {
+            return alert("It's a tie!");
+          }
+        };
+      })(this));
     };
 
     return App;

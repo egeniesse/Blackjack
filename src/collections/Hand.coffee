@@ -5,7 +5,9 @@ class window.Hand extends Backbone.Collection
 
   hit: ->
     @add(@deck.pop())
-    if @scores() > 21 then if @isDealer then @trigger 'dealerbust' else @trigger 'playerbust'
+    console.log @scores()
+    if @scores() > 21 then (if @isDealer then @trigger 'dealerbust' else @trigger 'playerbust')
+
 
   stand: ->
     @trigger 'stand'
@@ -27,5 +29,7 @@ class window.Hand extends Backbone.Collection
       if nextscore < 21 and nextscore > bestscore then nextscore else bestscore
 
   dealer: ->
+    @at(0).flip()
     while @scores() < 17
       @hit()
+    @trigger 'evaluate'  

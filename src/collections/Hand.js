@@ -19,12 +19,13 @@
 
     Hand.prototype.hit = function() {
       this.add(this.deck.pop());
+      console.log(this.scores());
       if (this.scores() > 21) {
         if (this.isDealer) {
           return this.trigger('dealerbust');
+        } else {
+          return this.trigger('playerbust');
         }
-      } else {
-        return this.trigger('playerbust');
       }
     };
 
@@ -66,12 +67,11 @@
     };
 
     Hand.prototype.dealer = function() {
-      var results;
-      results = [];
+      this.at(0).flip();
       while (this.scores() < 17) {
-        results.push(this.hit());
+        this.hit();
       }
-      return results;
+      return this.trigger('evaluate');
     };
 
     return Hand;
